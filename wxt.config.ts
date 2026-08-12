@@ -9,6 +9,7 @@ export default defineConfig({
       'Blocks the LinkedIn feed and redirects it to Jobs. Not affiliated with or endorsed by LinkedIn.',
     permissions: [
       'declarativeNetRequestWithHostAccess',
+      'notifications',
       'storage',
       'webNavigation',
     ],

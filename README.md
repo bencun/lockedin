@@ -7,7 +7,8 @@ navigation inside LinkedIn.
 The popup shows whether LockedIn is active on the current LinkedIn tab or idle
 on another site, along with the number of feeds redirected since installation.
 After a successful redirect, the extension's toolbar badge briefly displays
-“LOCK” without injecting anything into the LinkedIn page.
+“LOCK” and a native “LOCK IN!” notification is shown, without injecting
+anything into the LinkedIn page.
 
 LockedIn is an independent extension and is not affiliated with or endorsed by
 LinkedIn. Redirect counts are kept locally and exclude private-browsing

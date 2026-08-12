@@ -3,6 +3,7 @@ import { REDIRECT_COUNT_KEY } from '@/utils/lockedIn';
 const LINKEDIN_JOBS_URL = 'https://www.linkedin.com/jobs';
 const DEFAULT_ACTION_TITLE = 'LockedIn status';
 const REDIRECT_ACTION_TITLE = 'LOCK IN! Feed redirected to Jobs.';
+const REDIRECT_NOTIFICATION_ID = 'lockedin-redirect';
 const REDIRECT_CONFIRMATION_MS = 3_000;
 const REDIRECT_PENDING_MS = 15_000;
 
@@ -86,6 +87,17 @@ function showRedirectConfirmation(tabId: number) {
   ]).catch(() => {
     // The tab may have closed before the badge was shown.
   });
+
+  void browser.notifications
+    .create(REDIRECT_NOTIFICATION_ID, {
+      type: 'basic',
+      iconUrl: browser.runtime.getURL('/icon/128.png'),
+      title: 'LOCK IN!',
+      message: 'LinkedIn feed blocked. Jobs opened.',
+    })
+    .catch(() => {
+      // The browser or operating system may have notifications disabled.
+    });
 
   badgeTimeouts.set(
     tabId,
