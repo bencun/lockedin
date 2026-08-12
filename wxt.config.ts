@@ -37,7 +37,7 @@ export default defineConfig({
     ...(browser === 'firefox' && {
       browser_specific_settings: {
         gecko: {
-          id: 'lockedin@bencun.dev',
+          id: '{1ff02bf8-347e-4470-bcc6-ecfba080f103}',
           data_collection_permissions: {
             required: ['none'],
           },
