@@ -105,18 +105,27 @@ function showRedirectConfirmation(tabId: number) {
   );
 }
 
-function redirectFeed(tabId: number, frameId: number, url: string) {
-  if (frameId !== 0 || !isLinkedInFeed(url)) return;
+function redirectFeed(tabId: number, url: string) {
+  if (!isLinkedInFeed(url)) return;
 
-  pendingRedirects.set(tabId, Date.now());
+  const now = Date.now();
+  const existingRedirect = pendingRedirects.get(tabId);
+  if (
+    existingRedirect !== undefined &&
+    now - existingRedirect <= REDIRECT_PENDING_MS
+  ) {
+    return;
+  }
+
+  pendingRedirects.set(tabId, now);
 
   void browser.tabs.update(tabId, { url: LINKEDIN_JOBS_URL }).catch(() => {
     pendingRedirects.delete(tabId);
   });
 }
 
-async function confirmRedirect(tabId: number, frameId: number, url: string) {
-  if (frameId !== 0 || !isLinkedInJobsUrl(url)) return;
+async function confirmRedirect(tabId: number, url: string) {
+  if (!isLinkedInJobsUrl(url)) return;
 
   const redirectStartedAt = pendingRedirects.get(tabId);
   if (redirectStartedAt === undefined) return;
@@ -134,16 +143,18 @@ async function confirmRedirect(tabId: number, frameId: number, url: string) {
 }
 
 export default defineBackground(() => {
-  browser.webNavigation.onBeforeNavigate.addListener((details) => {
-    redirectFeed(details.tabId, details.frameId, details.url);
-  });
+  browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    const observedUrl = changeInfo.url ?? tab.pendingUrl;
+    if (!observedUrl) return;
 
-  browser.webNavigation.onHistoryStateUpdated.addListener((details) => {
-    redirectFeed(details.tabId, details.frameId, details.url);
-  });
+    if (isLinkedInFeed(observedUrl)) {
+      redirectFeed(tabId, observedUrl);
+      return;
+    }
 
-  browser.webNavigation.onCommitted.addListener((details) => {
-    void confirmRedirect(details.tabId, details.frameId, details.url);
+    if (changeInfo.url && isLinkedInJobsUrl(changeInfo.url)) {
+      void confirmRedirect(tabId, changeInfo.url);
+    }
   });
 
   browser.tabs.onRemoved.addListener((tabId) => {

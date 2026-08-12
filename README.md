@@ -14,6 +14,9 @@ LockedIn is an independent extension and is not affiliated with or endorsed by
 LinkedIn. Redirect counts are kept locally and exclude private-browsing
 sessions.
 
+The extension observes URL changes only for LinkedIn through its LinkedIn host
+permission; it does not request access to browser history.
+
 ## Development
 
 ```sh

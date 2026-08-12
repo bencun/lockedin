@@ -11,7 +11,6 @@ export default defineConfig({
       'declarativeNetRequestWithHostAccess',
       'notifications',
       'storage',
-      'webNavigation',
     ],
     host_permissions: ['*://*.linkedin.com/*'],
     externally_connectable: {
