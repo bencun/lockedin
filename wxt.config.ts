@@ -7,11 +7,8 @@ export default defineConfig({
     name: 'LockedIn',
     description:
       'Blocks the LinkedIn feed and redirects it to Jobs. Not affiliated with or endorsed by LinkedIn.',
-    permissions: [
-      'declarativeNetRequestWithHostAccess',
-      'notifications',
-      'storage',
-    ],
+    permissions: ['declarativeNetRequestWithHostAccess', 'storage'],
+    optional_permissions: ['notifications'],
     host_permissions: ['*://*.linkedin.com/*'],
     externally_connectable: {
       ids: [],

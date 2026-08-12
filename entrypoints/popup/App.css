@@ -4,7 +4,7 @@
 
 .popup {
   box-sizing: border-box;
-  min-height: 388px;
+  min-height: 464px;
   padding: 20px;
   background:
     radial-gradient(
@@ -121,18 +121,12 @@ h1 {
 
 .counter {
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding: 14px 10px 0;
-  border-top: 1px solid #e3e8ed;
-  color: #697683;
-}
-
-.counter__stat {
-  display: flex;
   align-items: baseline;
   justify-content: center;
   gap: 7px;
+  padding: 14px 10px 0;
+  border-top: 1px solid #e3e8ed;
+  color: #697683;
 }
 
 .counter__value {
@@ -155,6 +149,14 @@ h1 {
   font-size: 9px;
   line-height: 1.4;
   text-align: center;
+}
+
+footer {
+  border-top: 1px solid #e3e8ed;
+}
+
+.popup .notification-preference {
+  padding-inline: 2px;
 }
 
 @keyframes spin {

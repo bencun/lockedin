@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import NotificationPreference from '@/components/NotificationPreference';
 import { REDIRECT_COUNT_KEY } from '@/utils/lockedIn';
 import './App.css';
 
@@ -101,15 +102,18 @@ function App() {
         </p>
       </section>
 
-      <footer className="counter">
-        <div className="counter__stat">
-          <span className="counter__value">
-            {redirectCount === null ? '—' : redirectCount.toLocaleString()}
-          </span>
-          <span className="counter__label">
-            {redirectCount === 1 ? 'redirect' : 'redirects'} since install
-          </span>
-        </div>
+      <section className="counter">
+        <span className="counter__value">
+          {redirectCount === null ? '—' : redirectCount.toLocaleString()}
+        </span>
+        <span className="counter__label">
+          {redirectCount === 1 ? 'redirect' : 'redirects'} since install
+        </span>
+      </section>
+
+      <NotificationPreference />
+
+      <footer>
         <p className="disclaimer">
           Independent extension. Not affiliated with or endorsed by LinkedIn.
         </p>

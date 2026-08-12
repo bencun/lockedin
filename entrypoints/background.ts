@@ -1,9 +1,12 @@
 import { REDIRECT_COUNT_KEY } from '@/utils/lockedIn';
+import {
+  NOTIFICATION_PERMISSION,
+  REDIRECT_NOTIFICATION_ID,
+} from '@/utils/notifications';
 
 const LINKEDIN_JOBS_URL = 'https://www.linkedin.com/jobs';
 const DEFAULT_ACTION_TITLE = 'LockedIn status';
 const REDIRECT_ACTION_TITLE = 'LOCK IN! Feed redirected to Jobs.';
-const REDIRECT_NOTIFICATION_ID = 'lockedin-redirect';
 const REDIRECT_CONFIRMATION_MS = 3_000;
 const REDIRECT_PENDING_MS = 15_000;
 
@@ -76,6 +79,20 @@ function clearBadge(tabId: number) {
   });
 }
 
+async function showRedirectNotification() {
+  const notificationsEnabled = await browser.permissions.contains(
+    NOTIFICATION_PERMISSION,
+  );
+  if (!notificationsEnabled) return;
+
+  await browser.notifications.create(REDIRECT_NOTIFICATION_ID, {
+    type: 'basic',
+    iconUrl: browser.runtime.getURL('/icon/128.png'),
+    title: 'LOCK IN!',
+    message: 'LinkedIn feed blocked. Jobs opened.',
+  });
+}
+
 function showRedirectConfirmation(tabId: number) {
   const existingTimeout = badgeTimeouts.get(tabId);
   if (existingTimeout) clearTimeout(existingTimeout);
@@ -88,16 +105,9 @@ function showRedirectConfirmation(tabId: number) {
     // The tab may have closed before the badge was shown.
   });
 
-  void browser.notifications
-    .create(REDIRECT_NOTIFICATION_ID, {
-      type: 'basic',
-      iconUrl: browser.runtime.getURL('/icon/128.png'),
-      title: 'LOCK IN!',
-      message: 'LinkedIn feed blocked. Jobs opened.',
-    })
-    .catch(() => {
-      // The browser or operating system may have notifications disabled.
-    });
+  void showRedirectNotification().catch(() => {
+    // The browser or operating system may have notifications disabled.
+  });
 
   badgeTimeouts.set(
     tabId,
@@ -143,6 +153,14 @@ async function confirmRedirect(tabId: number, url: string) {
 }
 
 export default defineBackground(() => {
+  browser.runtime.onInstalled.addListener((details) => {
+    if (details.reason !== 'install') return;
+
+    void browser.tabs.create({
+      url: browser.runtime.getURL('/onboarding.html'),
+    });
+  });
+
   browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     const observedUrl = changeInfo.url ?? tab.pendingUrl;
     if (!observedUrl) return;
