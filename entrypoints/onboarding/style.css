@@ -1,11 +1,4 @@
 :root {
-  font-family:
-    Inter,
-    ui-sans-serif,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
   color: #17212b;
   background: #eef4f0;
   font-synthesis: none;
@@ -16,10 +9,6 @@
 body {
   min-width: 320px;
   margin: 0;
-}
-
-button {
-  font: inherit;
 }
 
 .onboarding {
@@ -44,7 +33,7 @@ button {
   align-items: center;
   gap: 10px;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .brand__mark {
@@ -66,7 +55,7 @@ button {
   margin: 0 0 9px;
   color: #168a54;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
@@ -130,7 +119,7 @@ h1 {
   background: #168a54;
   color: #ffffff;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .toolbar-demo__badge {
@@ -142,7 +131,7 @@ h1 {
   background: #168a54;
   color: #ffffff;
   font-size: 7px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .steps {
@@ -170,7 +159,7 @@ h1 {
   background: rgba(22, 138, 84, 0.11);
   color: #168a54;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .steps p {
@@ -200,7 +189,7 @@ h1 {
   background: #17212b;
   color: #ffffff;
   font-size: 13px;
-  font-weight: 750;
+  font-weight: 700;
   cursor: pointer;
 }
 

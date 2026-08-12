@@ -31,13 +31,13 @@
   background: #168a54;
   color: #ffffff;
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.04em;
 }
 
 .brand__name {
   font-size: 15px;
-  font-weight: 750;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 
@@ -95,7 +95,7 @@
   margin: 0 0 5px;
   color: #697683;
   font-size: 10px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -132,14 +132,14 @@ h1 {
 .counter__value {
   color: #17212b;
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.03em;
 }
 
 .counter__label {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .disclaimer {
