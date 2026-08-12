@@ -28,4 +28,8 @@ pnpm install
 pnpm dev
 ```
 
+LockedIn strips WXT's development-only `tabs` permission because this project
+has no content scripts. The generated development and production manifests do
+not request browser-history access.
+
 Run `pnpm compile` and `pnpm build` before shipping a change.
