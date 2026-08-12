@@ -98,7 +98,7 @@ function showRedirectConfirmation(tabId: number) {
   if (existingTimeout) clearTimeout(existingTimeout);
 
   void Promise.all([
-    browser.action.setBadgeBackgroundColor({ color: '#168a54', tabId }),
+    browser.action.setBadgeBackgroundColor({ color: '#ff0000', tabId }),
     browser.action.setBadgeText({ tabId, text: 'LOCK' }),
     browser.action.setTitle({ tabId, title: REDIRECT_ACTION_TITLE }),
   ]).catch(() => {
