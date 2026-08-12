@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import NotificationPreference from '@/components/NotificationPreference';
+import PrivacyLink from '@/components/PrivacyLink';
 import { REDIRECT_COUNT_KEY } from '@/utils/lockedIn';
 import './App.css';
 
@@ -117,6 +118,7 @@ function App() {
         <p className="disclaimer">
           Independent extension. Not affiliated with or endorsed by LinkedIn.
         </p>
+        <PrivacyLink className="privacy-link" />
       </footer>
     </main>
   );

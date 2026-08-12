@@ -1,0 +1,274 @@
+function App() {
+  return (
+    <main className="privacy-page">
+      <header className="privacy-hero">
+        <div className="brand">
+          <span className="brand__mark" aria-hidden="true">
+            L
+          </span>
+          <span>LockedIn</span>
+        </div>
+
+        <p className="eyebrow">Privacy policy</p>
+        <h1>LockedIn keeps its data local.</h1>
+        <p className="summary">
+          LockedIn does not report personal information, browsing activity, or
+          usage data to the developer, analytics providers, advertisers, or any
+          other developer-selected service. Its only external action is
+          redirecting your current LinkedIn tab to LinkedIn Jobs.
+        </p>
+        <p className="effective-date">Effective August 13, 2026</p>
+      </header>
+
+      <article className="policy">
+        <section>
+          <h2>1. Scope</h2>
+          <p>
+            This policy applies to the LockedIn browser extension for Chrome and
+            Firefox. LockedIn has one purpose: when you visit LinkedIn’s feed,
+            it redirects that visit to LinkedIn Jobs. It also provides a local
+            redirect counter, a temporary toolbar badge, and optional browser
+            notifications confirming redirects.
+          </p>
+          <p>
+            LockedIn is an independent extension and is not affiliated with,
+            sponsored by, or endorsed by LinkedIn.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Information the extension accesses</h2>
+          <h3>LinkedIn page addresses</h3>
+          <p>
+            The extension receives access to page addresses on
+            <code> linkedin.com</code> through its LinkedIn host permission. It
+            checks only the hostname and path needed to recognize LinkedIn’s
+            <code> /feed</code> and <code> /jobs</code> routes. This enables
+            both normal navigations and client-side navigations inside LinkedIn
+            to be handled. Full page addresses are not saved.
+          </p>
+
+          <h3>Local redirect count</h3>
+          <p>
+            After a confirmed redirect, LockedIn stores one number: the total
+            number of redirects since installation. The number is stored in the
+            browser’s extension-local storage. It is not synchronized to an
+            account and is not sent anywhere.
+          </p>
+
+          <h3>Private-browsing status</h3>
+          <p>
+            LockedIn checks whether the redirected tab is private or incognito
+            solely to exclude that redirect from the saved counter. It does not
+            store private-browsing activity.
+          </p>
+
+          <h3>Notification permission state</h3>
+          <p>
+            LockedIn checks whether you have granted its optional notification
+            permission so the interface can show the correct setting and the
+            extension can decide whether to display a redirect notification.
+          </p>
+        </section>
+
+        <section>
+          <h2>3. Information LockedIn does not collect</h2>
+          <p>LockedIn does not collect, store, or transmit:</p>
+          <ul>
+            <li>LinkedIn profile details, messages, posts, or page content;</li>
+            <li>form entries, search terms, keystrokes, or credentials;</li>
+            <li>cookies, authentication tokens, or account identifiers;</li>
+            <li>your general browser history or activity on other websites;</li>
+            <li>IP addresses, location, device identifiers, or diagnostics;</li>
+            <li>analytics, advertising identifiers, or crash reports; or</li>
+            <li>financial, employment, or other sensitive personal data.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>4. How information is used</h2>
+          <p>
+            LinkedIn page addresses are processed temporarily and locally only
+            to decide whether a redirect is required and whether it completed.
+            The redirect count is used only to display the “redirects since
+            install” total in the popup. Permission state is used only to
+            operate the notification toggle and optional notifications.
+          </p>
+          <p>
+            LockedIn does not create a browsing profile, infer interests,
+            evaluate employment activity, or use information for advertising,
+            analytics, credit, eligibility, or automated decision-making.
+          </p>
+        </section>
+
+        <section>
+          <h2>5. Storage, retention, and deletion</h2>
+          <p>
+            The redirect count remains in extension-local browser storage until
+            you clear the extension’s data or uninstall the extension. Pending
+            redirects and toolbar-badge timers exist only in memory while the
+            extension’s background process is running. LockedIn has no
+            developer-operated database, account system, backup, or cloud
+            storage.
+          </p>
+          <p>
+            Because no information is sent to the developer, there is no
+            server-side copy for the developer to access, correct, export, or
+            delete.
+          </p>
+        </section>
+
+        <section>
+          <h2>6. Browser permissions</h2>
+          <dl>
+            <div>
+              <dt>LinkedIn host access</dt>
+              <dd>
+                Allows LockedIn to recognize the relevant LinkedIn routes and
+                perform redirects. Access is limited to LinkedIn.
+              </dd>
+            </div>
+            <div>
+              <dt>Declarative network request with host access</dt>
+              <dd>
+                Lets the browser apply a packaged rule that redirects the
+                LinkedIn feed to LinkedIn Jobs without injecting code into the
+                LinkedIn page.
+              </dd>
+            </div>
+            <div>
+              <dt>Storage</dt>
+              <dd>
+                Stores the local redirect count. LockedIn uses local storage,
+                not synchronized storage.
+              </dd>
+            </div>
+            <div>
+              <dt>Notifications (optional)</dt>
+              <dd>
+                Displays a native confirmation after a redirect only when you
+                explicitly enable this permission. Feed blocking and the toolbar
+                badge continue to work without it.
+              </dd>
+            </div>
+          </dl>
+          <p>
+            LockedIn does not request broad browser-history, cookie, clipboard,
+            identity, download, or page-content scripting permissions.
+          </p>
+        </section>
+
+        <section>
+          <h2>7. Native notification privacy</h2>
+          <p>
+            If notifications are enabled, LockedIn asks the browser and
+            operating system to show the text “LinkedIn feed blocked. Jobs
+            opened.” Depending on your operating-system settings, that message
+            may be visible on a lock screen or to someone near your device.
+            Notification display, history, and lock-screen behavior are
+            controlled by your browser and operating system, not by LockedIn.
+          </p>
+          <p>
+            You can disable notifications at any time from the LockedIn popup or
+            onboarding page without disabling the redirect feature.
+          </p>
+        </section>
+
+        <section>
+          <h2>8. Network activity, sharing, and third parties</h2>
+          <p>
+            LockedIn does not contact a developer server or analytics service.
+            Its only navigation change sends your existing LinkedIn tab to
+            <code> https://www.linkedin.com/jobs</code>. Your resulting
+            interaction with LinkedIn is governed by LinkedIn’s own terms and
+            privacy practices.
+          </p>
+          <p>
+            LockedIn does not sell, rent, share, disclose, or monetize user
+            information. It contains no advertisements, tracking pixels,
+            affiliate links, remote configuration, or remotely hosted code.
+          </p>
+        </section>
+
+        <section>
+          <h2>9. Security</h2>
+          <p>
+            LockedIn minimizes data access by limiting its host permission to
+            LinkedIn, keeping its redirect rule and application code inside the
+            signed extension package, avoiding page injection, and retaining
+            only a local numeric count. Browser extension isolation and your
+            browser’s local-storage protections provide the underlying storage
+            security.
+          </p>
+          <p>
+            No software can guarantee absolute security. Keeping your browser
+            and extension updated helps ensure you receive current platform and
+            dependency security fixes.
+          </p>
+        </section>
+
+        <section>
+          <h2>10. Your choices</h2>
+          <ul>
+            <li>Leave optional native notifications disabled.</li>
+            <li>Disable notifications later from the LockedIn popup.</li>
+            <li>
+              Revoke LinkedIn site access in browser extension settings, which
+              prevents the core redirect feature from operating.
+            </li>
+            <li>
+              Clear LockedIn’s local extension data or uninstall the extension
+              to remove the saved redirect count.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>11. Children’s privacy</h2>
+          <p>
+            LockedIn is not directed specifically to children and does not
+            knowingly collect personal information from anyone, including
+            children.
+          </p>
+        </section>
+
+        <section>
+          <h2>12. Policy changes</h2>
+          <p>
+            If LockedIn’s data practices change, this page and its effective
+            date will be updated, and any disclosures or consent required by the
+            browser stores will be provided before the changed practice is used.
+            An update will not retroactively transmit locally stored information
+            without a clear disclosure and any required consent.
+          </p>
+        </section>
+
+        <section>
+          <h2>13. Contact</h2>
+          <p>
+            Privacy questions can be sent through the developer support contact
+            shown on the official browser-store listing from which you obtained
+            LockedIn. Because the extension sends no information to the
+            developer, support requests contain only the information you choose
+            to provide.
+          </p>
+        </section>
+
+        <section>
+          <h2>14. Open-source components</h2>
+          <p>
+            LockedIn includes open-source software and fonts. Their copyright
+            and license texts are available in the bundled{' '}
+            <a href="THIRD_PARTY_NOTICES.txt" target="_blank" rel="noreferrer">
+              third-party notices
+            </a>
+            . These components run locally and do not receive user information
+            from LockedIn.
+          </p>
+        </section>
+      </article>
+    </main>
+  );
+}
+
+export default App;

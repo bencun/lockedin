@@ -1,4 +1,5 @@
 import NotificationPreference from '@/components/NotificationPreference';
+import PrivacyLink from '@/components/PrivacyLink';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
       <p className="disclaimer">
         Independent extension. Not affiliated with or endorsed by LinkedIn.
       </p>
+      <PrivacyLink className="privacy-link" />
     </main>
   );
 }
