@@ -1,28 +1,37 @@
-import { defineConfig } from "wxt";
+import { defineConfig } from 'wxt';
 
 export default defineConfig({
-  modules: ["@wxt-dev/module-react"],
+  modules: ['@wxt-dev/module-react'],
   manifestVersion: 3,
   manifest: ({ browser }) => ({
-    name: "LockedIn",
-    description: "Blocks the LinkedIn feed and redirects it to LinkedIn Jobs.",
-    permissions: ["declarativeNetRequestWithHostAccess", "webNavigation"],
-    host_permissions: ["*://*.linkedin.com/*"],
+    name: 'LockedIn',
+    description:
+      'Blocks the LinkedIn feed and redirects it to Jobs. Not affiliated with or endorsed by LinkedIn.',
+    permissions: [
+      'declarativeNetRequestWithHostAccess',
+      'storage',
+      'webNavigation',
+    ],
+    host_permissions: ['*://*.linkedin.com/*'],
+    externally_connectable: {
+      ids: [],
+      matches: [],
+    },
     declarative_net_request: {
       rule_resources: [
         {
-          id: "linkedin_feed_redirect",
+          id: 'linkedin_feed_redirect',
           enabled: true,
-          path: "rules.json",
+          path: 'rules.json',
         },
       ],
     },
-    ...(browser === "firefox" && {
+    ...(browser === 'firefox' && {
       browser_specific_settings: {
         gecko: {
-          id: "lockedin@bencun.dev",
+          id: 'lockedin@bencun.dev',
           data_collection_permissions: {
-            required: ["none"],
+            required: ['none'],
           },
         },
       },
