@@ -13,6 +13,7 @@
     "zip:firefox": "wxt zip -b firefox",
     "build-all-clean": "rimraf .output && pnpm zip && pnpm zip:firefox",
     "compile": "tsc --noEmit",
+    "docs": "tsx .scripts/generate-docs.ts",
     "generate:icons": "tsx .scripts/generate-icons.ts",
     "postinstall": "wxt prepare",
     "format": "prettier --write ."

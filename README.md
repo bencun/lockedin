@@ -33,3 +33,16 @@ has no content scripts. The generated development and production manifests do
 not request browser-history access.
 
 Run `pnpm compile` and `pnpm build` before shipping a change.
+
+## GitHub Pages privacy policy
+
+The static site in `docs/` is generated from the same React privacy-policy
+component used by the extension. Regenerate it after changing the policy,
+styles, fonts, or third-party notices:
+
+```sh
+pnpm run docs
+```
+
+The explicit `run` is required because `pnpm docs` is pnpm's built-in command
+for opening a dependency's documentation.
