@@ -36,13 +36,15 @@ Run `pnpm compile` and `pnpm build` before shipping a change.
 
 ## GitHub Pages privacy policy
 
-The static site in `docs/` is generated from the same React privacy-policy
-component used by the extension. Regenerate it after changing the policy,
-styles, fonts, or third-party notices:
+The static policy at `docs/policy.html` is generated from the same React
+privacy-policy component used by the extension. Regenerate it after changing
+the policy, styles, fonts, or third-party notices:
 
 ```sh
 pnpm run docs
 ```
 
 The explicit `run` is required because `pnpm docs` is pnpm's built-in command
-for opening a dependency's documentation.
+for opening a dependency's documentation. The generator creates a minimal
+`docs/index.html` when one does not exist, but never overwrites it, so it can be
+expanded into a project homepage independently.

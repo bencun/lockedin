@@ -24,7 +24,7 @@ const [fontStyles, privacyStyles, prettierConfig] = await Promise.all([
 ]);
 
 const policyMarkup = renderToStaticMarkup(createElement(PrivacyPolicy));
-const html = await format(
+const policyHtml = await format(
   `<!doctype html>
 <html lang="en">
   <head>
@@ -44,6 +44,21 @@ const html = await format(
   { ...prettierConfig, parser: 'html' },
 );
 
+const indexHtml = await format(
+  `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LockedIn</title>
+  </head>
+  <body>
+    <a href="./policy.html">Privacy policy</a>
+  </body>
+</html>`,
+  { ...prettierConfig, parser: 'html' },
+);
+
 const relativeFontStyles = fontStyles.replaceAll(
   "url('/fonts/",
   "url('./fonts/",
@@ -55,11 +70,17 @@ ${privacyStyles}`,
   { ...prettierConfig, parser: 'css' },
 );
 
-await rm(docsDir, { recursive: true, force: true });
 await mkdir(docsDir, { recursive: true });
+await rm(path.join(docsDir, 'fonts'), { recursive: true, force: true });
+
+try {
+  await writeFile(path.join(docsDir, 'index.html'), indexHtml, { flag: 'wx' });
+} catch (error) {
+  if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error;
+}
 
 await Promise.all([
-  writeFile(path.join(docsDir, 'index.html'), html),
+  writeFile(path.join(docsDir, 'policy.html'), policyHtml),
   writeFile(path.join(docsDir, 'style.css'), styles),
   writeFile(path.join(docsDir, '.nojekyll'), ''),
   cp(path.join(publicDir, 'fonts'), path.join(docsDir, 'fonts'), {
@@ -71,4 +92,4 @@ await Promise.all([
   ),
 ]);
 
-console.log(`Generated GitHub Pages privacy policy in ${docsDir}`);
+console.log(`Generated GitHub Pages privacy policy at ${docsDir}/policy.html`);
