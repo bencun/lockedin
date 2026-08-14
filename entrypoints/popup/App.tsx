@@ -188,7 +188,7 @@ function App() {
 
       <section className="pause-control">
         <div className="pause-control__copy">
-          <h2>{isPaused ? 'Blocking is paused' : 'Pause for 5 minutes'}</h2>
+          <h2>{isPaused ? 'Blocking is paused' : 'Pause for 1 minute'}</h2>
           <p>
             {isPaused ? (
               <>
@@ -210,7 +210,7 @@ function App() {
           aria-label={
             isPaused
               ? 'Resume feed blocking now'
-              : 'Pause feed blocking for 5 minutes'
+              : 'Pause feed blocking for 1 minute'
           }
           disabled={isLoading || isUpdatingPause}
           onClick={() => void togglePause()}
