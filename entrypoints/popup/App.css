@@ -85,6 +85,15 @@
   border-color: rgba(22, 138, 84, 0.3);
 }
 
+.popup--paused .status__dot {
+  background: #d97706;
+  box-shadow: 0 0 0 9px rgba(217, 119, 6, 0.12);
+}
+
+.popup--paused .status__ring {
+  border-color: rgba(217, 119, 6, 0.3);
+}
+
 .popup--loading .status__ring {
   border-color: transparent;
   border-top-color: #168a54;
@@ -104,6 +113,10 @@
   color: #168a54;
 }
 
+.popup--paused .status__label {
+  color: #b45309;
+}
+
 h1 {
   margin: 0;
   font-size: 24px;
@@ -117,6 +130,85 @@ h1 {
   color: #697683;
   font-size: 13px;
   line-height: 1.5;
+}
+
+.pause-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 2px;
+  border-top: 1px solid #e3e8ed;
+}
+
+.pause-control__copy {
+  min-width: 0;
+}
+
+.pause-control__copy h2,
+.pause-control__copy p {
+  margin: 0;
+}
+
+.pause-control__copy h2 {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.pause-control__copy p {
+  margin-top: 3px;
+  color: #697683;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.pause-control__copy time {
+  color: #b45309;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.pause-control__switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #c8d0d7;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+
+.pause-control__switch span {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(23, 33, 43, 0.25);
+  transition: transform 160ms ease;
+}
+
+.pause-control__switch[aria-checked='true'] {
+  background: #d97706;
+}
+
+.pause-control__switch[aria-checked='true'] span {
+  transform: translateX(16px);
+}
+
+.pause-control__switch:focus-visible {
+  outline: 2px solid #d97706;
+  outline-offset: 3px;
+}
+
+.pause-control__switch:disabled {
+  cursor: wait;
+  opacity: 0.55;
 }
 
 .counter {
@@ -185,5 +277,10 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .popup--loading .status__ring {
     animation: none;
+  }
+
+  .pause-control__switch,
+  .pause-control__switch span {
+    transition: none;
   }
 }

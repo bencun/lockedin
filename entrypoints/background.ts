@@ -1,4 +1,9 @@
-import { REDIRECT_COUNT_KEY } from '@/utils/lockedIn';
+import {
+  PAUSE_ALARM_NAME,
+  PAUSE_UNTIL_KEY,
+  REDIRECT_COUNT_KEY,
+  REDIRECT_RULESET_ID,
+} from '@/utils/lockedIn';
 import {
   NOTIFICATION_PERMISSION,
   REDIRECT_NOTIFICATION_ID,
@@ -13,6 +18,7 @@ const REDIRECT_PENDING_MS = 15_000;
 const pendingRedirects = new Map<number, number>();
 const badgeTimeouts = new Map<number, ReturnType<typeof setTimeout>>();
 let countUpdateQueue = Promise.resolve();
+let pauseUpdateQueue = Promise.resolve();
 
 function isLinkedInFeed(url: string) {
   try {
@@ -68,6 +74,38 @@ function incrementRedirectCount(): Promise<number> {
   return update;
 }
 
+async function getPauseUntil() {
+  const stored = await browser.storage.local.get(PAUSE_UNTIL_KEY);
+  const pauseUntil = stored[PAUSE_UNTIL_KEY];
+
+  return typeof pauseUntil === 'number' ? pauseUntil : 0;
+}
+
+function reconcilePauseState() {
+  const update = pauseUpdateQueue.then(async () => {
+    const pauseUntil = await getPauseUntil();
+
+    if (pauseUntil > Date.now()) {
+      pendingRedirects.clear();
+
+      await browser.declarativeNetRequest.updateEnabledRulesets({
+        disableRulesetIds: [REDIRECT_RULESET_ID],
+      });
+      await browser.alarms.create(PAUSE_ALARM_NAME, { when: pauseUntil });
+      return;
+    }
+
+    await browser.declarativeNetRequest.updateEnabledRulesets({
+      enableRulesetIds: [REDIRECT_RULESET_ID],
+    });
+    await browser.alarms.clear(PAUSE_ALARM_NAME);
+  });
+
+  pauseUpdateQueue = update.catch(() => undefined);
+
+  return update;
+}
+
 function clearBadge(tabId: number) {
   badgeTimeouts.delete(tabId);
 
@@ -115,8 +153,9 @@ function showRedirectConfirmation(tabId: number) {
   );
 }
 
-function redirectFeed(tabId: number, url: string) {
+async function redirectFeed(tabId: number, url: string) {
   if (!isLinkedInFeed(url)) return;
+  if ((await getPauseUntil()) > Date.now()) return;
 
   const now = Date.now();
   const existingRedirect = pendingRedirects.get(tabId);
@@ -153,6 +192,8 @@ async function confirmRedirect(tabId: number, url: string) {
 }
 
 export default defineBackground(() => {
+  void reconcilePauseState();
+
   browser.runtime.onInstalled.addListener((details) => {
     if (details.reason !== 'install') return;
 
@@ -161,12 +202,28 @@ export default defineBackground(() => {
     });
   });
 
+  browser.runtime.onStartup.addListener(() => {
+    void reconcilePauseState();
+  });
+
+  browser.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== 'local' || !changes[PAUSE_UNTIL_KEY]) return;
+
+    void reconcilePauseState();
+  });
+
+  browser.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name !== PAUSE_ALARM_NAME) return;
+
+    void reconcilePauseState();
+  });
+
   browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     const observedUrl = changeInfo.url ?? tab.pendingUrl;
     if (!observedUrl) return;
 
     if (isLinkedInFeed(observedUrl)) {
-      redirectFeed(tabId, observedUrl);
+      void redirectFeed(tabId, observedUrl);
       return;
     }
 

@@ -6,6 +6,9 @@ navigation inside LinkedIn.
 
 The popup shows whether LockedIn is active on the current LinkedIn tab or idle
 on another site, along with the number of feeds redirected since installation.
+Feed blocking can be paused from the popup for five minutes; a countdown shows
+the remaining time and blocking resumes automatically even when the popup is
+closed.
 After a successful redirect, the extension's toolbar badge briefly displays
 “LOCK” and a native “LOCK IN!” notification is shown, without injecting
 anything into the LinkedIn page. Native notifications are optional and can be
