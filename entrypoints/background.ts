@@ -12,6 +12,10 @@ import {
 const LINKEDIN_JOBS_URL = 'https://www.linkedin.com/jobs';
 const DEFAULT_ACTION_TITLE = 'LockedIn status';
 const REDIRECT_ACTION_TITLE = 'LOCK IN! Feed redirected to Jobs.';
+const PAUSED_ACTION_TITLE =
+  'LockedIn paused. Feed blocking resumes automatically.';
+const PAUSED_BADGE_TEXT = 'Ⅱ';
+const PAUSED_BADGE_COLOR = '#d97706';
 const REDIRECT_CONFIRMATION_MS = 3_000;
 const REDIRECT_PENDING_MS = 15_000;
 
@@ -81,6 +85,48 @@ async function getPauseUntil() {
   return typeof pauseUntil === 'number' ? pauseUntil : 0;
 }
 
+async function showPausedBadge(isPaused: boolean) {
+  if (isPaused) {
+    for (const timeout of badgeTimeouts.values()) clearTimeout(timeout);
+    badgeTimeouts.clear();
+  }
+
+  const tabs = await browser.tabs.query({});
+  const text = isPaused ? PAUSED_BADGE_TEXT : '';
+  const title = isPaused ? PAUSED_ACTION_TITLE : DEFAULT_ACTION_TITLE;
+  const updates = [
+    browser.action.setBadgeText({ text }),
+    browser.action.setTitle({ title }),
+    ...tabs.flatMap((tab) => {
+      if (tab.id === undefined) return [];
+
+      const tabUpdates = [
+        browser.action.setBadgeText({ tabId: tab.id, text }),
+        browser.action.setTitle({ tabId: tab.id, title }),
+      ];
+
+      if (isPaused) {
+        tabUpdates.push(
+          browser.action.setBadgeBackgroundColor({
+            color: PAUSED_BADGE_COLOR,
+            tabId: tab.id,
+          }),
+        );
+      }
+
+      return tabUpdates;
+    }),
+  ];
+
+  if (isPaused) {
+    updates.push(
+      browser.action.setBadgeBackgroundColor({ color: PAUSED_BADGE_COLOR }),
+    );
+  }
+
+  await Promise.all(updates.map((update) => update.catch(() => undefined)));
+}
+
 function reconcilePauseState() {
   const update = pauseUpdateQueue.then(async () => {
     const pauseUntil = await getPauseUntil();
@@ -92,9 +138,11 @@ function reconcilePauseState() {
         disableRulesetIds: [REDIRECT_RULESET_ID],
       });
       await browser.alarms.create(PAUSE_ALARM_NAME, { when: pauseUntil });
+      await showPausedBadge(true);
       return;
     }
 
+    await showPausedBadge(false);
     await browser.declarativeNetRequest.updateEnabledRulesets({
       enableRulesetIds: [REDIRECT_RULESET_ID],
     });
